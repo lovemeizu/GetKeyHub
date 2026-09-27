@@ -5,7 +5,7 @@
     put your own game/script functionality after the verified callback.
 ]]
 
-local SERVER_URL = "https://getkeyhub-uwal.onrender.com/"
+local SERVER_URL = "https://getkeyhub-uwal.onrender.com"
 local KEY_PAGE = "https://lovemeizu.github.io/GetKeyHub/getkey.html"
 
 local function httpGet(url)
