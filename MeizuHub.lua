@@ -8,7 +8,7 @@
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
-local HttpService = game:GetService("HttpService")
+local HttpService = game:GetService("HttpService")")
 
 local Player = Players.LocalPlayer
 local PlayerGui = Player:WaitForChild("PlayerGui")
@@ -287,10 +287,44 @@ Create("TextLabel", {
 }, Content)
 
 GetKey.MouseButton1Click:Connect(function()
-    if setclipboard then pcall(setclipboard, CONFIG.GETKEY_URL) end
-    Status.Text = "●  Link Get Key đã sẵn sàng"
-    Status.TextColor3 = Color3.fromRGB(250,190,80)
-    Result.Text = "Đã copy link Get Key."
+
+    local currentHWID = GetHWID()
+
+    if not currentHWID or #tostring(currentHWID) == 0 then
+        Status.Text = "●  Không lấy được HWID"
+        Status.TextColor3 = CONFIG.Red
+        Result.Text = "Không thể tạo link Get Key."
+        return
+    end
+
+    local url = CONFIG.GETKEY_URL
+        .. "?hwid="
+        .. HttpService:UrlEncode(tostring(currentHWID))
+
+    if type(setclipboard) == "function" then
+
+        local ok = pcall(function()
+            setclipboard(url)
+        end)
+
+        if ok then
+            Status.Text = "●  Link Get Key đã sẵn sàng"
+            Status.TextColor3 = CONFIG.Green
+            Result.Text = "Đã copy link Get Key."
+        else
+            Status.Text = "●  Get Key ready"
+            Status.TextColor3 = CONFIG.Green
+            Result.Text = "Không thể copy link."
+        end
+
+    else
+
+        Status.Text = "●  Get Key ready"
+        Status.TextColor3 = CONFIG.Green
+        Result.Text = "Executor không hỗ trợ clipboard."
+
+    end
+
 end)
 
 local function BuildMainHub()
